@@ -1,0 +1,15 @@
+{
+  "__GENERATED_FILE_DO_NOT_MODIFY_MANUALLY": 1309766956,
+  "all-cabal-hashes": "https://raw.githubusercontent.com/commercialhaskell/all-cabal-hashes/c7100cd43da90061cf68b0a3b5e4d0debfd4c7c3",
+  "resolved": {
+    "HUnit": {"dependencies":["base","call-stack","deepseq"],"location":{"type":"hackage","url":"https://hackage.haskell.org/package/HUnit-1.6.2.0/HUnit-1.6.2.0.tar.gz"},"name":"HUnit","pinned":{"url":["https://hackage.haskell.org/package/HUnit-1.6.2.0/HUnit-1.6.2.0.tar.gz","https://s3.amazonaws.com/hackage.fpcomplete.com/package/HUnit-1.6.2.0.tar.gz"],"sha256":"b0b7538871ffc058486fc00740886d2f3172f8fa6869936bfe83a5e10bd744ab","cabal-sha256":"1a79174e8af616117ad39464cac9de205ca923da6582825e97c10786fda933a4"},"version":"1.6.2.0"},
+    "base": {"dependencies":[],"location":{"type":"core"},"name":"base","version":"4.15.1.0"},
+    "call-stack": {"dependencies":["base"],"location":{"type":"hackage","url":"https://hackage.haskell.org/package/call-stack-0.4.0/call-stack-0.4.0.tar.gz"},"name":"call-stack","pinned":{"url":["https://hackage.haskell.org/package/call-stack-0.4.0/call-stack-0.4.0.tar.gz","https://s3.amazonaws.com/hackage.fpcomplete.com/package/call-stack-0.4.0.tar.gz"],"sha256":"430bcf8a3404f7e55319573c0b807b1356946f0c8f289bb3d9afb279c636b87b","cabal-sha256":"ac44d2c00931dc20b01750da8c92ec443eb63a7231e8550188cb2ac2385f7feb"},"version":"0.4.0"},
+    "deepseq": {"dependencies":[],"location":{"type":"core"},"name":"deepseq","version":"1.4.5.0"},
+    "ghc-prim": {"dependencies":[],"location":{"type":"core"},"name":"ghc-prim","version":"0.7.0"},
+    "mtl": {"dependencies":[],"location":{"type":"core"},"name":"mtl","version":"2.2.2"},
+    "primitive": {"dependencies":["base","deepseq","transformers"],"location":{"type":"hackage","url":"https://hackage.haskell.org/package/primitive-0.7.3.0/primitive-0.7.3.0.tar.gz"},"name":"primitive","pinned":{"url":["https://hackage.haskell.org/package/primitive-0.7.3.0/primitive-0.7.3.0.tar.gz","https://s3.amazonaws.com/hackage.fpcomplete.com/package/primitive-0.7.3.0.tar.gz"],"sha256":"3c0cfda67f1ee6f7f65108ad6f973b5bbb35ddba34b3c87746a7448f787501dc","cabal-sha256":"6b28a1c0572f5ca50597ba8388aeade21515842969ae192cdc6bfca81367bf56"},"version":"0.7.3.0"},
+    "transformers": {"dependencies":[],"location":{"type":"core"},"name":"transformers","version":"0.5.6.2"},
+    "vector": {"dependencies":["base","deepseq","ghc-prim","primitive"],"location":{"type":"hackage","url":"https://hackage.haskell.org/package/vector-0.12.3.1/vector-0.12.3.1.tar.gz"},"name":"vector","pinned":{"url":["https://hackage.haskell.org/package/vector-0.12.3.1/vector-0.12.3.1.tar.gz","https://s3.amazonaws.com/hackage.fpcomplete.com/package/vector-0.12.3.1.tar.gz"],"sha256":"fb4a53c02bd4d7fdf155c0604da9a5bb0f3b3bfce5d9960aea11c2ae235b9f35","cabal-sha256":"040210919e5ce454dcee3320f77803da3dbda579c8428dc25ff0155732234808"},"version":"0.12.3.1"}
+  }
+}
