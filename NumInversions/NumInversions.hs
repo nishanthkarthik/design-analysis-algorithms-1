@@ -22,9 +22,9 @@ mergeListsInv (na, af@(a:as)) bf@(b:bs)
     where (invl, arl) = mergeListsInv (na - 1, as) bf
           (invr, arr) = mergeListsInv (na, af) bs
 
-readInput :: String -> IO [(Int, [Int])]
-readInput file = map (headTail . map read . words) . lines <$> readFile file
-    where headTail (x:xs) = (x, xs)
+readInput :: String -> IO [(Integer, [Int])]
+readInput file = map (headTail . map read . words) . filter (not . null) . lines <$> readFile file
+    where headTail (x:xs) = (fromIntegral x, xs)
 
 testSorted = map (TestCase . assertBool "Array is sorted" . isSorted . sortedFn . snd)
     where sortedFn = toList . snd . mergeSort . fromList
@@ -33,7 +33,9 @@ testSorted = map (TestCase . assertBool "Array is sorted" . isSorted . sortedFn 
 testInverse = map (\(inv, arr) -> "Inversions" ~: fromIntegral inv ~=? inverseFn arr)
     where inverseFn = fst . mergeSort . fromList
 
+
 main :: IO Counts
 main = do
-    readInput "NumInversions/tests.txt" >>= runTestTT . TestList . liftA2 (++) testSorted testInverse
-    readInput "NumInversions/IntegerArraySpaced.txt" >>= runTestTT . TestList . liftA2 (++) testSorted testInverse
+    let allTests = liftA2 (++) testSorted testInverse
+    readInput "NumInversions/tests.txt" >>= runTestTT . TestList . allTests
+    readInput "NumInversions/IntegerArraySpaced.txt" >>= runTestTT . TestList . allTests

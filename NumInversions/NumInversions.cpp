@@ -4,13 +4,13 @@
 #include <sstream>
 #include <cassert>
 
-using Input = std::pair<int, std::vector<int>>;
+using Input = std::pair<long, std::vector<int>>;
 
 std::vector<Input> readInputs(const std::string &fileName) {
     std::vector<Input> inputs;
     std::ifstream in{fileName};
     while (in) {
-        int invs;
+        long invs;
         std::string line;
         std::getline(in, line);
         if (line.empty()) break;
@@ -22,8 +22,8 @@ std::vector<Input> readInputs(const std::string &fileName) {
             stream >> num;
             nums.push_back(num);
         }
-        nums.pop_back();
-        inputs.emplace_back(invs, nums);
+        if (!nums.empty()) nums.pop_back();
+        inputs.push_back(Input(invs, std::move(nums)));
     }
     return inputs;
 }
@@ -61,6 +61,8 @@ int main() {
         std::cout << it.first << " ==? " << sorted.first << std::endl;
         assert(sorted.first == it.first);
     }
-    std::cout << "Solution " << mergeSort(readInputs("NumInversions/IntegerArraySpaced.txt").front().second).first << std::endl;
+    std::cout << "Solution "
+              << mergeSort(readInputs("NumInversions/IntegerArraySpaced.txt").at(0).second).first
+              << std::endl;
     return 0;
 }
