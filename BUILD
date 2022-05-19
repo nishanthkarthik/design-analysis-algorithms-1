@@ -9,6 +9,7 @@ haskell_binary(
         "@stackage//:mtl",
         "@stackage//:vector",
     ],
+    data = ["NumInversions/tests.txt", "NumInversions/IntegerArraySpaced.txt"],
 )
 
 load("@rules_cc//cc:defs.bzl", "cc_binary")
@@ -16,4 +17,5 @@ load("@rules_cc//cc:defs.bzl", "cc_binary")
 cc_binary(
     name = "num-inversions-cpp",
     srcs = ["NumInversions/NumInversions.cpp"],
+    data = ["NumInversions/tests.txt", "NumInversions/IntegerArraySpaced.txt"],
 )
