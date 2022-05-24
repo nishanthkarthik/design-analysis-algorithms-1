@@ -1,17 +1,15 @@
-import Data.Vector.Unboxed ((!), (//), Unbox, Vector, fromList, toList)
-import qualified Data.Vector.Unboxed as V
 import Test.HUnit
 import Control.Monad.State
 import Control.Applicative (liftA2)
 
-mergeSort :: (Ord a, Unbox a) => Vector a -> (Integer, Vector a)
+mergeSort :: (Ord a) => [a] -> (Integer, [a])
 mergeSort v
-    | V.length v <= 1 = (0, v)
-    | otherwise = (linv + rinv + splitinv, fromList arr)
-    where (l, r) = V.splitAt (V.length v `div` 2) v
+    | length v <= 1 = (0, v)
+    | otherwise = (linv + rinv + splitinv, arr)
+    where (l, r) = splitAt (length v `div` 2) v
           (linv, larr) = mergeSort l
           (rinv, rarr) = mergeSort r
-          (splitinv, arr) = mergeListsInv (fromIntegral $ V.length larr, toList larr) (toList rarr)
+          (splitinv, arr) = mergeListsInv (fromIntegral $ length larr, larr) rarr
 
 mergeListsInv :: (Ord a) => (Integer, [a]) -> [a] -> (Integer, [a])
 mergeListsInv (_, a) [] = (0, a)
@@ -27,11 +25,11 @@ readInput file = map (headTail . map read . words) . filter (not . null) . lines
     where headTail (x:xs) = (fromIntegral x, xs)
 
 testSorted = map (TestCase . assertBool "Array is sorted" . isSorted . sortedFn . snd)
-    where sortedFn = toList . snd . mergeSort . fromList
+    where sortedFn = snd . mergeSort
           isSorted xs = and $ zipWith (<=) xs (tail xs)
 
 testInverse = map (\(inv, arr) -> "Inversions" ~: fromIntegral inv ~=? inverseFn arr)
-    where inverseFn = fst . mergeSort . fromList
+    where inverseFn = fst . mergeSort
 
 
 main :: IO Counts
