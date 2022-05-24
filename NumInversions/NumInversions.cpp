@@ -40,6 +40,7 @@ std::pair<long, std::vector<int>> mergeSort(const std::vector<int> &in) {
 
     long inversions = 0;
     std::vector<int> res;
+    res.reserve(la.size() + ra.size());
     int li = 0, ri = 0;
     while (li < la.size() && ri < ra.size()) {
         if (la[li] < ra[ri]) {
