@@ -2,14 +2,16 @@ import Test.HUnit
 import Control.Monad.State
 import Control.Applicative (liftA2)
 
-mergeSort :: (Ord a) => [a] -> (Integer, [a])
+data MergeResult a = MergeResult { inversions :: Integer, result :: [a] } deriving (Show)
+
+mergeSort :: (Ord a) => [a] -> MergeResult a
 mergeSort v
-    | length v <= 1 = (0, v)
-    | otherwise = (linv + rinv + splitinv, arr)
+    | length v <= 1 = MergeResult 0 v
+    | otherwise = MergeResult (inversions lmerged + inversions rmerged + splitinv) arr
     where (l, r) = splitAt (length v `div` 2) v
-          (linv, larr) = mergeSort l
-          (rinv, rarr) = mergeSort r
-          (splitinv, arr) = mergeListsInv (fromIntegral $ length larr, larr) rarr
+          lmerged = mergeSort l
+          rmerged = mergeSort r
+          (splitinv, arr) = mergeListsInv ((fromIntegral . length . result) lmerged, result lmerged) (result rmerged)
 
 mergeListsInv :: (Ord a) => (Integer, [a]) -> [a] -> (Integer, [a])
 mergeListsInv (_, a) [] = (0, a)
@@ -20,17 +22,17 @@ mergeListsInv (na, af@(a:as)) bf@(b:bs)
     where (invl, arl) = mergeListsInv (na - 1, as) bf
           (invr, arr) = mergeListsInv (na, af) bs
 
-readInput :: String -> IO [(Integer, [Int])]
-readInput file = map (headTail . map read . words) . filter (not . null) . lines <$> readFile file
-    where headTail (x:xs) = (fromIntegral x, xs)
+data Input = Input { reference :: Integer, input :: [Int] } deriving (Show)
 
-testSorted = map (TestCase . assertBool "Array is sorted" . isSorted . sortedFn . snd)
-    where sortedFn = snd . mergeSort
-          isSorted xs = and $ zipWith (<=) xs (tail xs)
+readInput :: String -> IO [Input]
+readInput file = map (toInput . map read . words) . filter (not . null) . lines <$> readFile file
+    where toInput = liftA2 Input (fromIntegral . head) tail
 
-testInverse = map (\(inv, arr) -> "Inversions" ~: fromIntegral inv ~=? inverseFn arr)
-    where inverseFn = fst . mergeSort
+testSorted = map (TestCase . assertBool "Array is sorted" . isSorted . sortedFn . input)
+    where sortedFn = result . mergeSort
+          isSorted = and . liftA2 (zipWith (<=)) id tail
 
+testInverse = map (("Inversions" ~:) . liftA2 (~=?) (fromIntegral . reference) (inversions . mergeSort . input))
 
 main :: IO Counts
 main = do
