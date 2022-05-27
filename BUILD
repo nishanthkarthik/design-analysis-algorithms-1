@@ -9,7 +9,7 @@ haskell_binary(
         "@stackage//:mtl",
         "@stackage//:vector",
     ],
-    data = ["NumInversions/tests.txt", "NumInversions/IntegerArraySpaced.txt"],
+    data = glob(["NumInversions/*.txt"]),
 )
 
 load("@rules_cc//cc:defs.bzl", "cc_binary")
@@ -19,3 +19,10 @@ cc_binary(
     srcs = ["NumInversions/NumInversions.cpp"],
     data = ["NumInversions/tests.txt", "NumInversions/IntegerArraySpaced.txt"],
 )
+
+cc_binary(
+    name = "quick-sort-cpp",
+    srcs = ["QuickSort/QuickSort.cpp"],
+    data = glob(["QuickSort/*.txt"]),
+)
+
