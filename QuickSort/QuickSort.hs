@@ -6,28 +6,24 @@ import Data.STRef
 
 import qualified Data.Vector.Unboxed.Mutable as MV
 import qualified Data.Vector.Unboxed as V
-import Data.List (sortBy)
-import Data.Function (on)
+import Data.List (sortOn)
 
 readInput :: String -> IO (V.Vector Int)
 readInput file = V.fromList . map read . filter (not . null) . lines <$> readFile file
 
 type FindPivot s a = V.Vector a -> Int -> Int -> Int
 
-pivotLeft :: (Ord a) => FindPivot s a
-pivotLeft _ l _ = l
+data Pivot = PivotLeft | PivotRight | PivotMedian deriving (Show, Eq)
 
-pivotRight :: (Ord a) => FindPivot s a
-pivotRight _ _ r = r
-
-pivotMedian :: (Ord a, V.Unbox a) => FindPivot s a
-pivotMedian v l r = (fst . head . tail) $ sortBy (compare `on` snd) (zip arr (map (v V.!) arr))
-    where arr = [l, r, (l + r) `div` 2]
-
-partition :: (Ord a, V.Unbox a) => FindPivot s a -> MV.MVector s a -> Int -> Int -> ST s Int
+partition :: (Ord a, V.Unbox a) => Pivot -> MV.MVector s a -> Int -> Int -> ST s Int
 partition p v l r = do
-    pivotInput_ <- V.freeze v
-    let pivot = p pivotInput_ l r
+    pivot <- case p of
+            PivotLeft -> return l
+            PivotRight -> return r
+            PivotMedian -> do
+                let indices = [l, r, (l + r) `div` 2]
+                values <- mapM (MV.read v) indices
+                return $ (fst . (!! 1) . sortOn snd) (zip indices values)
     when (pivot /= l) $ MV.swap v pivot l
     feed <- newSTRef (l + 1)
     forM_ [l + 1 .. r] $ \i -> do
@@ -43,7 +39,7 @@ partition p v l r = do
 
 type Comparisons = Int
 
-quickSort_ :: (Ord a, V.Unbox a) => FindPivot s a -> MV.MVector s a -> Int -> Int -> ST s Comparisons
+quickSort_ :: (Ord a, V.Unbox a) => Pivot -> MV.MVector s a -> Int -> Int -> ST s Comparisons
 quickSort_ p v l r = do
     let window = r - l + 1
         numCompares = max 0 (window - 1)
@@ -55,7 +51,7 @@ quickSort_ p v l r = do
         rightCompares <- quickSort_ p v feed r
         return (numCompares + leftCompares + rightCompares)
 
-quickSort :: (Ord a, V.Unbox a) => FindPivot s a -> V.Vector a -> (V.Vector a, Comparisons)
+quickSort :: (Ord a, V.Unbox a) => Pivot -> V.Vector a -> (V.Vector a, Comparisons)
 quickSort p v = runST $ do
     work_ <- V.thaw v
     comps <- quickSort_ p work_ 0 (V.length v - 1)
@@ -66,7 +62,7 @@ main :: IO ()
 main = do
     argFile <- (\x -> if null x then "QuickSort/input.txt" else head x) <$> getArgs
     input <- readInput argFile
-    putStrLn ((("PivotLeft " ++) . show . snd . quickSort pivotLeft) input)
-    putStrLn ((("PivotRight " ++) . show . snd . quickSort pivotRight) input)
-    putStrLn ((("PivotMedian " ++) . show . snd . quickSort pivotMedian) input)
+    putStrLn ((("PivotLeft " ++) . show . snd . quickSort PivotLeft) input)
+    putStrLn ((("PivotRight " ++) . show . snd . quickSort PivotRight) input)
+    putStrLn ((("PivotMedian " ++) . show . snd . quickSort PivotMedian) input)
     return ()
