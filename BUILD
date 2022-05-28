@@ -6,7 +6,6 @@ haskell_binary(
     deps = [
         "@stackage//:HUnit",
         "@stackage//:base",
-        "@stackage//:mtl",
         "@stackage//:vector",
     ],
     data = glob(["NumInversions/*.txt"]),
@@ -26,3 +25,9 @@ cc_binary(
     data = glob(["QuickSort/*.txt"]),
 )
 
+haskell_binary(
+    name = "quick-sort-hs",
+    srcs = ["QuickSort/QuickSort.hs"],
+    data = glob(["QuickSort/*.txt"]),
+    deps = ["@stackage//:vector", "@stackage//:base"],
+)
