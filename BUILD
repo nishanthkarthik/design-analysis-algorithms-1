@@ -31,3 +31,9 @@ haskell_binary(
     data = glob(["QuickSort/*.txt"]),
     deps = ["@stackage//:vector", "@stackage//:base"],
 )
+
+cc_binary(
+    name = "min-cut-cpp",
+    srcs = ["MinCut/MinCut.cpp"],
+    data = glob(["MinCut/*.txt"]),
+)
