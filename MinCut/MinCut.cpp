@@ -49,7 +49,7 @@ AdjList readInput(const std::string &fileName) {
 }
 
 static struct {
-    std::mt19937 gen;
+    std::mt19937 gen = std::mt19937{ 41 };
     std::mutex mutex;
 
     template <typename Container>
@@ -134,9 +134,8 @@ int main(int argc, char *argv[]) {
                 int cuts = minCut(iterativeMerge(input), input);
                 {
                     std::unique_lock<std::mutex> lock(mutex);
+                    if (cuts < minCutSoFar) std::cout << minCutSoFar << " > " << cuts << std::endl;
                     minCutSoFar = std::min(minCutSoFar, cuts);
-                    if (minCutSoFar == cuts)
-                        std::cout << minCutSoFar << " << " << cuts << std::endl;
                 }
             }
         });
