@@ -35,6 +35,8 @@ stack_snapshot(
         "base",
         "mtl",
         "vector",
+        "random",
+        "containers",
     ],
     snapshot = "lts-19.7",
     stack_snapshot_json = "//:stackage_snapshot.json",

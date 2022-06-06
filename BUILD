@@ -37,3 +37,10 @@ cc_binary(
     srcs = ["MinCut/MinCut.cpp"],
     data = glob(["MinCut/*.txt"]),
 )
+
+haskell_binary(
+    name = "min-cut-hs",
+    srcs = ["MinCut/MinCut.hs"],
+    data = glob(["MinCut/*.txt"]),
+    deps = ["@stackage//:base", "@stackage//:random", "@stackage//:containers"],
+)
