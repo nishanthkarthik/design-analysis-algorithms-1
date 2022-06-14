@@ -3,12 +3,12 @@ load("@rules_haskell//haskell:defs.bzl", "haskell_binary")
 haskell_binary(
     name = "num-inversions-hs",
     srcs = ["NumInversions/NumInversions.hs"],
+    data = glob(["NumInversions/*.txt"]),
     deps = [
         "@stackage//:HUnit",
         "@stackage//:base",
         "@stackage//:vector",
     ],
-    data = glob(["NumInversions/*.txt"]),
 )
 
 load("@rules_cc//cc:defs.bzl", "cc_binary")
@@ -16,7 +16,10 @@ load("@rules_cc//cc:defs.bzl", "cc_binary")
 cc_binary(
     name = "num-inversions-cpp",
     srcs = ["NumInversions/NumInversions.cpp"],
-    data = ["NumInversions/tests.txt", "NumInversions/IntegerArraySpaced.txt"],
+    data = [
+        "NumInversions/IntegerArraySpaced.txt",
+        "NumInversions/tests.txt",
+    ],
 )
 
 cc_binary(
@@ -29,7 +32,10 @@ haskell_binary(
     name = "quick-sort-hs",
     srcs = ["QuickSort/QuickSort.hs"],
     data = glob(["QuickSort/*.txt"]),
-    deps = ["@stackage//:vector", "@stackage//:base"],
+    deps = [
+        "@stackage//:base",
+        "@stackage//:vector",
+    ],
 )
 
 cc_binary(
@@ -42,5 +48,15 @@ haskell_binary(
     name = "min-cut-hs",
     srcs = ["MinCut/MinCut.hs"],
     data = glob(["MinCut/*.txt"]),
-    deps = ["@stackage//:base", "@stackage//:random", "@stackage//:containers"],
+    deps = [
+        "@stackage//:base",
+        "@stackage//:containers",
+        "@stackage//:random",
+    ],
+)
+
+cc_binary(
+    name = "scc-cpp",
+    srcs = ["SCC/SCC.cpp"],
+    data = glob(["SCC/*.txt"]),
 )
