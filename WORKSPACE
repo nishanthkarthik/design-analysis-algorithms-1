@@ -28,16 +28,11 @@ rules_haskell_toolchains(
 
 load("@rules_haskell//haskell:cabal.bzl", "stack_snapshot")
 
+load("@//:packages.bzl", "PACKAGES")
+
 stack_snapshot(
     name = "stackage",
-    packages = [
-        "HUnit",
-        "base",
-        "containers",
-        "mtl",
-        "random",
-        "vector",
-    ],
+    packages = PACKAGES,
     snapshot = "lts-19.7",
     stack_snapshot_json = "//:stackage_snapshot.json",
 )
