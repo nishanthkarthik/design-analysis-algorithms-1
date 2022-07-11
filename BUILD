@@ -57,3 +57,9 @@ haskell_binary(
     data = glob(["SCC/*.txt"]),
     deps = STACKAGE_ALL,
 )
+
+cc_binary(
+    name = "shortest-path-cpp",
+    srcs = ["ShortestPath/ShortestPath.cpp"],
+    data = glob(["ShortestPath/*.txt"]),
+)
