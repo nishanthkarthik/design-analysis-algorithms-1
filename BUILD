@@ -63,3 +63,9 @@ cc_binary(
     srcs = ["ShortestPath/ShortestPath.cpp"],
     data = glob(["ShortestPath/*.txt"]),
 )
+
+cc_binary(
+    name = "two-sum-cpp",
+    srcs = ["TwoSum/TwoSum.cpp"],
+    data = glob(["TwoSum/*.txt"]),
+)
