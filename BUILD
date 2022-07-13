@@ -69,3 +69,9 @@ cc_binary(
     srcs = ["TwoSum/TwoSum.cpp"],
     data = glob(["TwoSum/*.txt"]),
 )
+
+cc_binary(
+    name = "median-stream-cpp",
+    srcs = ["MedianStream/MedianStream.cpp"],
+    data = glob(["MedianStream/*.txt"]),
+)
