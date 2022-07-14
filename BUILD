@@ -64,6 +64,13 @@ cc_binary(
     data = glob(["ShortestPath/*.txt"]),
 )
 
+haskell_binary(
+    name = "shortest-path-hs",
+    srcs = ["ShortestPath/ShortestPath.hs"],
+    data = glob(["ShortestPath/*.txt"]),
+    deps = STACKAGE_ALL,
+)
+
 cc_binary(
     name = "two-sum-cpp",
     srcs = ["TwoSum/TwoSum.cpp"],
