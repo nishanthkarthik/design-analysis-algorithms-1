@@ -89,3 +89,10 @@ cc_binary(
     srcs = ["MedianStream/MedianStream.cpp"],
     data = glob(["MedianStream/*.txt"]),
 )
+
+haskell_binary(
+    name = "median-stream-hs",
+    srcs = ["MedianStream/MedianStream.hs"],
+    data = glob(["MedianStream/*.txt"]),
+    deps = STACKAGE_ALL,
+)
