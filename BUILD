@@ -77,6 +77,13 @@ cc_binary(
     data = glob(["TwoSum/*.txt"]),
 )
 
+haskell_binary(
+    name = "two-sum-hs",
+    srcs = ["TwoSum/TwoSum.hs"],
+    data = glob(["TwoSum/*.txt"]),
+    deps = STACKAGE_ALL,
+)
+
 cc_binary(
     name = "median-stream-cpp",
     srcs = ["MedianStream/MedianStream.cpp"],
